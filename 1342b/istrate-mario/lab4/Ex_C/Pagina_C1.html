@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>CSS_C1</title>
+<style>
+
+        #hd {
+        font-variant: small-caps;
+        color:magenta;
+    }
+     h1 {
+        color: blue;
+    background-color: #cccc00;
+    }
+    caption {
+        color: white;
+    background-color: orange;
+    font-size:x-large;
+    }
+      body {
+    background-color: #ffffcc;
+    }
+.center, p {
+  text-align: center;
+  color: red;
+}
+table{
+  border: 2px solid black;
+  padding: 15px;
+  border-collapse: collapse;
+}
+td{
+  border: 1px solid black;
+  padding: 10px;
+  background-color: orange;
+}
+th{
+  border: 2px solid black;
+  background-color: magenta
+}
+
+
+
+</style>
+</head>
+<body>
+
+<h1 id="hd">Tabel special</h1>
+<p>Un tabel cu "celule lipite"
+</p> 
+<table style="width: 100%" >
+<caption>Echipe si hobby-uri</caption>
+  <tr>
+    <th>Echipa</th>
+	<th>Nume</th>
+    <th colspan="2">Pasiuni</th>
+  </tr>
+  <tr>
+	<th rowspan="3">Munte</th>
+    <td>Popescu</td>
+    <td>calatorii</td>
+    <td>filatelie</td>
+  </tr>
+  <tr>
+    <td>Mario</td>
+    <td>rechini</td>
+    <td>dinozauri</td>
+  </tr>
+  <tr>
+	
+    <td>Ionescu</td>
+    <td>planorism</td>
+    <td>sah</td>
+  </tr>
+  <tr>
+	<th rowspan="4">Mare</th>
+    <td>Georgescu</td>
+    <td>plaja</td>
+    <td>dans</td>
+  </tr>
+  <tr>
+	
+    <td>Gigescu</td>
+    <td>surf</td>
+    <td>samba</td>
+  </tr>
+  <tr>
+    <td>Predescu</td>
+    <td>carte</td>
+    <td>parte</td>
+  </tr>
+  <tr>
+	
+    <td>Mintescu</td>
+    <td>politica</td>
+    <td>delicateturi</td>
+  </tr>
+</table>
+</body>
+</html>
