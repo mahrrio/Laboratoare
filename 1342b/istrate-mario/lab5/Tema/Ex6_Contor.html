@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<title>Ex6 - Contor Bec</title>
+<script>
+    let contor = 0;
+    let esteAprins = false;
+
+    function comutaBec() {
+        let img = document.getElementById('becImage');
+        let text = document.getElementById('numarator');
+
+        if (esteAprins === false) {
+            img.src = "Bec aprins.gif";
+            esteAprins = true; 
+            contor++; 
+            text.innerText = "Becul a fost aprins de " + contor + " ori.";
+        } else {
+            img.src = "Bec stins.gif";
+            esteAprins = false;
+        }
+    }
+</script>
+</head>
+<body>
+
+<h1>Bec contor</h1>
+
+<p>
+    <img id="becImage" src="Bec stins.gif" width="100" height="180" onclick="comutaBec()">
+</p>
+
+<p id="numarator">Becul a fost aprins de 0 ori</p>
+
+</body>
+</html>
