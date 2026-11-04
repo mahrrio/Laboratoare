@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ro">
+  <head>
+    <script>
+      function modifica_culoare(p) {
+        var culoare = prompt(
+          "Introduceți noua culoare a headerului:",
+          p.style.color,
+        );
+        if (CSS.supports("color", culoare) == true) {
+          p.style.color = culoare;
+        }
+      }
+      function modifica_fundal(p) {
+        var culoare = prompt(
+          "Introduceți noul fundal al paragrafului:",
+          p.style.backgroundColor,
+        );
+
+        if (culoare !== null) {
+          if (CSS.supports("background-color", culoare) == true) {
+            p.style.backgroundColor = culoare;
+          } else {
+            alert("NU E BINE");
+          }
+        }
+      }
+    </script>
+    <meta charset="UTF-8" />
+  </head>
+  <body>
+    <h1 onclick="modifica_culoare(this)">iti dau slime poimaine</h1>
+    <p onclick="modifica_fundal(this)">
+      codrin bracea bani codrin bracea bani codrin bracea bani codrin bracea
+      bani codrin bracea bani codrin bracea bani codrin bracea bani codrin
+      bracea bani codrin bracea bani codrin bracea bani codrin bracea bani
+    </p>
+  </body>
+</html>

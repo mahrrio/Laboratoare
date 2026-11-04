@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Modificari cu JavaScript</title>
+    <script>
+      function modifica(p) {
+        var text = prompt(
+          "Introduceți noul text al paragrafului:",
+          p.innerHTML,
+        );
+        if (text !== null && text !== "") {
+          p.innerHTML = text;
+        }
+      }
+
+      function switcher(p) {
+        var text = p[0].innerHTML;
+        p[0].innerHTML = p[1].innerHTML;
+        p[1].innerHTML = text;
+      }
+    </script>
+  </head>
+  <body>
+    <button
+      id="butt"
+      ;
+      type="button"
+      ;
+      onclick="switcher(document.getElementsByTagName('p'))"
+    >
+      buton
+    </button>
+
+    <p class="demo" ; onclick="modifica(this)">BLADEE</p>
+    <p class="demo2">THAIBOYYYY</p>
+  </body>
+</html>
