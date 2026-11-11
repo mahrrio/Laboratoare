@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <title>Contoare in storage-uri</title>
+<script>
+function clickContorLocal() {
+    if(typeof(Storage) !== "undefined") {
+        if (localStorage.clickcount) {
+            localStorage.clickcount = Number(localStorage.clickcount)+1;
+        } else {
+            localStorage.clickcount = 1;
+        }
+        document.getElementById("resultL").innerHTML = "Ati apasat butonul de " + localStorage.clickcount + " ori.";
+    } else {
+        document.getElementById("resultL").innerHTML = "Sorry, your browser does not support web storage...";
+    }
+}
+
+function clickContorSesiune() {
+    if(typeof(Storage) !== "undefined") {
+        if (sessionStorage.clickcount) {
+            sessionStorage.setItem("clickcount",  Number(sessionStorage.getItem("clickcount"))+1);
+        } else {
+            sessionStorage.setItem("clickcount", 1);
+        }
+        document.getElementById("resultS").innerHTML = "Ati apasat butonul de " + sessionStorage.getItem("clickcount") + " ori.";
+    } else {
+        document.getElementById("resultS").innerHTML = "Sorry, your browser does not support web storage...";
+    }
+}
+</script>
+</head>
+<body>
+<div style="background-color:green;color:white;font-size:200%">
+<p><button onclick="clickContorLocal()" type="button" style="font-size:300%">Contor local</button></p>
+	<div id="resultL"></div>
+	<p>Click pe buton pentru a vedea cum se modifica contorul.</p>
+	<p>Inchideti browserul (fereastra/tab), si incercati din nou - contorul NU ESTE resetat!.</p>
+	</div>
+</div>
+<div style="background-color:magenta;color:yellow;font-size:200%">
+	<p><button onclick="clickContorSesiune()" type="button" style="font-size:300%">Contor sesiune</button></p>
+	<div id="resultS"></div>
+	<p>Click pe buton pentru a vedea cum se modifica contorul.</p>
+	<p>Inchideti browserul (fereastra/tab), si incercati din nou - contorul VA FI resetat!.</p>
+	</div>
+</div>
+</body>
+</html>

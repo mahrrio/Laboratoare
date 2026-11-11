@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="ro">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Garaj – tablou de obiecte în Local Storage</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: LightGoldenRodYellow;
+      }
+      table {
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+      th,
+      td {
+        border: 1px solid green;
+        padding: 6px 12px;
+      }
+      th {
+        background-color: LightGreen;
+      }
+      input {
+        width: 8em;
+      }
+    </style>
+    <script>
+      // garajul = tablou de obiecte {tip, model, culoare, anFab, combustibil}, salvat ca text JSON
+      function citesteGaraj() {
+        var text = localStorage.getItem("garaj");
+        return text ? JSON.parse(text) : [];
+      }
+      function scrieGaraj(garaj) {
+        localStorage.setItem("garaj", JSON.stringify(garaj));
+      }
+      function adauga() {
+        var garaj = citesteGaraj();
+        garaj.push({
+          tip: document.getElementById("tip").value,
+          model: document.getElementById("model").value,
+          culoare: document.getElementById("culoare").value,
+          anFab: Number(document.getElementById("an").value),
+          combustibil: document.getElementById("combustibil").value,
+        });
+        scrieGaraj(garaj);
+        document.getElementById("formular").reset();
+        afiseaza();
+        return false;
+      }
+      function sterge(i) {
+        var garaj = citesteGaraj();
+        garaj.splice(i, 1); // scoate elementul de pe pozitia i
+        scrieGaraj(garaj);
+        afiseaza();
+      }
+      function afiseaza() {
+        var garaj = citesteGaraj();
+        // Am adăugat coloana "Combustibil" în antet
+        var html =
+          "<tr><th>Nr.</th><th>Tip</th><th>Model</th><th>Culoare</th><th>An</th><th>Combustibil</th><th></th></tr>";
+        for (var i = 0; i < garaj.length; i++) {
+          html +=
+            "<tr>" +
+            "<td>" +
+            (i + 1) +
+            "</td>" +
+            "<td>" +
+            garaj[i].tip +
+            "</td>" +
+            "<td>" +
+            garaj[i].model +
+            "</td>" +
+            "<td>" +
+            garaj[i].culoare +
+            "</td>" +
+            "<td>" +
+            garaj[i].anFab +
+            "</td>" +
+            "<td>" +
+            garaj[i].combustibil +
+            "</td>" +
+            '<td><button type="button" onclick="sterge(' +
+            i +
+            ')">Șterge</button></td>' +
+            "</tr>";
+        }
+        document.getElementById("tabel").innerHTML = html;
+        document.getElementById("total").innerHTML =
+          "Mașini în garaj: " + garaj.length;
+      }
+    </script>
+  </head>
+  <body onload="afiseaza()">
+    <h1>Garaj</h1>
+    <form id="formular" onsubmit="return adauga();">
+      <input id="tip" placeholder="Tip" required />
+      <input id="model" placeholder="Model" required />
+      <input id="culoare" placeholder="Culoare" required />
+      <input
+        id="an"
+        type="number"
+        min="1900"
+        max="2030"
+        placeholder="An"
+        required
+      />
+      <!-- Câmp nou adăugat pentru combustibil -->
+      <input id="combustibil" placeholder="Combustibil" required />
+      <button type="submit">Adaugă</button>
+    </form>
+    <p id="total"></p>
+    <table id="tabel"></table>
+    <p><a href="index.html">Înapoi la laboratorul 7</a></p>
+  </body>
+</html>

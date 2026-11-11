@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> Verificare user pass encrypt </title>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/md5.js"></script>
+<script>
+function verificaUser() {
+var u = document.getElementById("user").value;
+if(!localStorage.getItem(u)) {
+alert("User incorect!")
+}
+else {
+var p = document.getElementById("pass").value;
+if(CryptoJS.MD5(p) == localStorage.getItem(u))
+confirm("OK");
+else
+alert("parola incorecta");
+}
+}
+
+function inscrieUser() {
+var un = document.getElementById("user").value;
+if(localStorage.getItem(un)) {
+alert("User existent!")
+}
+else {
+var pn = document.getElementById("pass").value;
+var hash = CryptoJS.MD5(pn);
+localStorage.setItem(un, hash);
+confirm("User inscris!");
+}
+}
+</script>
+</head>
+<body>
+<form >
+  <label for="user">User:</label><br>
+  <input type="text" id="user"><br>
+  <label for="pass">Parola:</label><br>
+  <input type="password" id="pass"><br><br>
+  <input type="button" value="Verificare" onclick="verificaUser()">
+  <input type="button" value="Inscriere" onclick="inscrieUser()">
+</form>
+</body>
+</html>

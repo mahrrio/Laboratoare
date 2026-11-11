@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title> Verificare user </title>
+
+<script>
+function verificaUser() {
+var u = document.getElementById("user").value;
+if(!localStorage.getItem(u)) {
+alert("User incorect!")
+}
+else {
+var p = document.getElementById("pass").value;
+if(p == localStorage.getItem(u))
+confirm("OK");
+else
+alert("parola incorecta");
+}
+}
+
+function inscrieUser() {
+var un = document.getElementById("user").value;
+if(localStorage.getItem(un)) {
+alert("User existent!")
+}
+else {
+var pn = document.getElementById("pass").value;
+localStorage.setItem(un, pn);
+confirm("User inscris!");
+}
+}
+</script>
+</head>
+<body>
+<form >
+  <label for="user">User:</label><br>
+  <input type="text" id="user"><br>
+  <label for="pass">Parola:</label><br>
+  <input type="password" id="pass"><br><br>
+  <input type="button" value="Verificare" onclick="verificaUser()">
+  <input type="button" value="Inscriere" onclick="inscrieUser()">
+</form>
+</body>
+</html>
