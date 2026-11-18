@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Tabel masini</title>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 20px;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+form {
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+input {
+  margin-right: 10px;
+  padding: 5px;
+}
+
+button {
+  margin-right: 10px;
+  padding: 5px 10px;
+}
+
+#mesaj {
+  color: red;
+  font-weight: bold;
+}
+</style>
+</head>
+<body>
+
+<h1>Masinile dorite</h1>
+
+<form onsubmit="return adaugaMasina()">
+  <input id="marca" placeholder="Marca" required>
+  <input id="model" placeholder="Model" required>
+  <input id="culoare" placeholder="Culoare" required>
+  <input id="anFab" type="number" placeholder="An fabricatie" required>
+  <button type="submit">Adauga masina</button>
+</form>
+
+<button onclick="stergeTot()">Sterge toate</button>
+
+<p id="mesaj"></p>
+
+<table id="tm">
+  <tr>
+    <th>Marca</th>
+    <th>Model</th>
+    <th>Culoare</th>
+    <th>An fabricatie</th>
+  </tr>
+</table>
+
+<script>
+let masini2Store = [];
+
+function masina(mk, md, cl, an){
+  this.marca = mk;
+  this.model = md;
+  this.culoare = cl;
+  this.anFab = an; 
+  this.randNou = function() {
+    return "<tr><td>" + this.marca + "</td><td>" + this.model + "</td><td>" + this.culoare + "</td><td>" + this.anFab + "</td></tr>";
+  };
+}
+
+function incarcaMasini() {
+  const tabel = document.getElementById("tm");
+  tabel.innerHTML = `<tr>
+    <th>Marca</th>
+    <th>Model</th>
+    <th>Culoare</th>
+    <th>An fabricatie</th>
+  </tr>`;
+
+  if(localStorage.carsArray) {
+    let arrayJSON = localStorage.carsArray;
+    let masiniStored = JSON.parse(arrayJSON);
+    masini2Store = [];
+    for(let i = 0; i < masiniStored.length; i++){
+      let m = new masina(masiniStored[i].marca, masiniStored[i].model, masiniStored[i].culoare, masiniStored[i].anFab);
+      tabel.innerHTML += m.randNou();
+      masini2Store.push(m);
+    }
+  } else {
+    let m1 = new masina("Opel", "Zafira", "gri", 2015);
+    let m2 = new masina("Seat", "Ibiza", "roz", 2018);
+    tabel.innerHTML += m1.randNou();
+    tabel.innerHTML += m2.randNou();
+    masini2Store.push(m1);
+    masini2Store.push(m2);
+    localStorage.setItem("carsArray", JSON.stringify(masini2Store));
+  }
+}
+
+incarcaMasini();
+
+function adaugaMasina() {
+  let pMesaj = document.getElementById("mesaj");
+  pMesaj.innerHTML = "";
+
+  let marca = document.getElementById("marca").value.trim();
+  let model = document.getElementById("model").value.trim();
+  let culoare = document.getElementById("culoare").value.trim();
+  let anInput = document.getElementById("anFab").value;
+
+  if (marca === "" || model === "" || culoare === "" || anInput === "") {
+    pMesaj.innerHTML = "Eroare: Toate campurile sunt obligatorii!";
+    return false;
+  }
+
+  let an = Number(anInput);
+  let anCurent = new Date().getFullYear();
+
+  if (!Number.isInteger(an) || an < 1900 || an > anCurent) {
+    pMesaj.innerHTML = "Eroare: Anul fabricatiei trebuie sa fie intre 1900 si " + anCurent + "!";
+    return false;
+  }
+
+  let mNoua = new masina(marca, model, culoare, an);
+  document.getElementById("tm").innerHTML += mNoua.randNou(); 
+
+  masini2Store.push(mNoua);
+  localStorage.setItem("carsArray", JSON.stringify(masini2Store));
+
+  document.getElementById("marca").value = "";
+  document.getElementById("model").value = "";
+  document.getElementById("culoare").value = "";
+  document.getElementById("anFab").value = "";
+
+  return false;
+}
+
+function stergeTot() {
+  localStorage.removeItem("carsArray");
+  masini2Store = [];
+  document.getElementById("tm").innerHTML = `<tr>
+    <th>Marca</th>
+    <th>Model</th>
+    <th>Culoare</th>
+    <th>An fabricatie</th>
+  </tr>`;
+  document.getElementById("mesaj").innerHTML = "";
+}
+</script>
+
+</body>
+</html>

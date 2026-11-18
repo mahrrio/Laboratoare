@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Tabel masini</title>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 20px;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+input {
+  margin-right: 10px;
+  padding: 5px;
+}
+
+#mesaj {
+  color: red;
+  font-weight: bold;
+}
+</style>
+</head>
+<body>
+
+<h1>Masinile dorite</h1>
+
+<form onsubmit="return adaugaMasina()">
+  <input id="marca" placeholder="Marca" required>
+  <input id="model" placeholder="Model" required>
+  <input id="culoare" placeholder="Culoare" required>
+  <input id="anFab" type="number" placeholder="An fabricatie" required>
+  <button type="submit">Adauga masina</button>
+</form>
+
+<p id="mesaj"></p>
+
+<table id="tm">
+  <tr>
+    <th>Marca</th>
+    <th>Model</th>
+    <th>Culoare</th>
+    <th>An fabricatie</th>
+  </tr>
+</table>
+
+<script>
+/*
+  Explicatie noutati fata de L8_B:
+  - masini2Store: Tablou (array) în care se stochează toate mașinile adăugate, spre deosebire de L8_B unde se păstra doar ultima mașină.
+  - cheia carsArray: Cheia folosită în localStorage pentru a salva întregul tablou de obiecte serializat în format JSON.
+  - bucla de la incarcare (for): Parcurge tabloul extras din localStorage, afișează fiecare mașină salvată anterior în tabel și le readaugă în masini2Store.
+*/
+
+const masini2Store = [];
+
+function masina(mk, md, cl, an){
+  this.marca = mk;
+  this.model = md;
+  this.culoare = cl;
+  this.anFab = an; 
+  this.randNou = function() {
+    return "<tr><td>" + this.marca + "</td><td>" + this.model + "</td><td>" + this.culoare + "</td><td>" + this.anFab + "</td></tr>";
+  };
+}
+
+if(localStorage.carsArray) {
+  let arrayJSON = localStorage.carsArray;
+  var masiniStored = JSON.parse(arrayJSON);
+  for(let i = 0; i < masiniStored.length; i++){
+    document.getElementById("tm").innerHTML += masiniStored[i].randNou; 
+    masini2Store.push(masiniStored[i]);
+  }
+} else {
+  var m1 = new masina("Opel", "Zafira", "gri", 2015);
+  var m2 = new masina("Seat", "Ibiza", "roz", 2018);
+  document.getElementById("tm").innerHTML += m1.randNou();
+  document.getElementById("tm").innerHTML += m2.randNou();
+  m1.randNou = m1.randNou().toString();
+  m2.randNou = m2.randNou().toString();
+  masini2Store.push(m1);
+  masini2Store.push(m2);
+  localStorage.setItem("carsArray", JSON.stringify(masini2Store));
+}
+
+function adaugaMasina() {
+  var pMesaj = document.getElementById("mesaj");
+  pMesaj.innerHTML = "";
+
+  var marca = document.getElementById("marca").value.trim();
+  var model = document.getElementById("model").value.trim();
+  var culoare = document.getElementById("culoare").value.trim();
+  var anInput = document.getElementById("anFab").value;
+
+  if (marca === "" || model === "" || culoare === "" || anInput === "") {
+    pMesaj.innerHTML = "Eroare: Toate campurile sunt obligatorii!";
+    return false;
+  }
+
+  var an = Number(anInput);
+  var anCurent = new Date().getFullYear();
+
+  if (!Number.isInteger(an) || an < 1900 || an > anCurent) {
+    pMesaj.innerHTML = "Eroare: Anul fabricatiei trebuie sa fie intre 1900 si " + anCurent + "!";
+    return false;
+  }
+
+  var mNoua = new masina(marca, model, culoare, an);
+  document.getElementById("tm").innerHTML += mNoua.randNou(); 
+
+  mNoua.randNou = mNoua.randNou().toString();
+  masini2Store.push(mNoua);
+  
+  var myJSON = JSON.stringify(masini2Store);
+  localStorage.setItem("carsArray", myJSON);
+
+  document.getElementById("marca").value = "";
+  document.getElementById("model").value = "";
+  document.getElementById("culoare").value = "";
+  document.getElementById("anFab").value = "";
+
+  return false;
+}
+</script>
+
+</body>
+</html>

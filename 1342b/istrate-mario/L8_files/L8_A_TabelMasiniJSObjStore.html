@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Tabel masini</title>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 20px;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+form {
+  margin-bottom: 20px;
+}
+
+input {
+  margin-right: 10px;
+  padding: 5px;
+}
+</style>
+</head>
+<body>
+
+<h1>Masinile dorite</h1>
+
+<form onsubmit="return adaugaMasina()">
+  <input id="marca" placeholder="Marca" required>
+  <input id="model" placeholder="Model" required>
+  <input id="culoare" placeholder="Culoare" required>
+  <input id="anFab" type="number" placeholder="An fabricatie" required>
+  <button type="submit">Adauga masina</button>
+</form>
+
+<p id="mesaj"></p>
+
+<table id="tm">
+  <tr>
+    <th>Marca</th>
+    <th>Model</th>
+    <th>Culoare</th>
+    <th>An fabricatie</th>
+  </tr>
+</table>
+
+<script>
+// Constructorul actualizat cu anul fabricației (an)
+function masina(mk, md, cl, an){
+  this.marca = mk;
+  this.model = md;
+  this.culoare = cl;
+  this.anFab = an; 
+  this.randNou = function() {
+    return "<tr><td>" + this.marca + "</td><td>" + this.model +
+    "</td><td>" + this.culoare + "</td><td>" + this.anFab + "</td></tr>";
+  };
+}
+
+// Inițializarea mașinilor predefinite
+var m1 = new masina("Opel", "Zafira", "gri", 2015);
+var m2 = new masina("Seat", "Ibiza", "roz", 2018);
+
+document.getElementById("tm").innerHTML += m1.randNou();
+document.getElementById("tm").innerHTML += m2.randNou();
+
+// Verificarea datelor salvate în localStorage
+if (localStorage.marca) {
+  var mNoua = new masina(localStorage.marca, localStorage.model, localStorage.culoare, localStorage.anFab);
+  document.getElementById("tm").innerHTML += mNoua.randNou();
+}
+
+// Funcția pentru adăugarea mașinii din formular
+function adaugaMasina() {
+  var marca = document.getElementById("marca").value;
+  var model = document.getElementById("model").value;
+  var culoare = document.getElementById("culoare").value;
+  var an = document.getElementById("anFab").value;
+  
+  var mNoua = new masina(marca, model, culoare, an);
+  document.getElementById("tm").innerHTML += mNoua.randNou();
+  
+  // Salvarea în localStorage
+  localStorage.setItem("marca", marca);
+  localStorage.setItem("model", model);
+  localStorage.setItem("culoare", culoare);
+  localStorage.setItem("anFab", an);
+  
+  return false; // Previne reîncărcarea paginii
+}
+</script>
+
+</body>
+</html>
